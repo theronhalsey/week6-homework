@@ -1,6 +1,7 @@
 // make initial buttons
 
 var terms = ["otters", "cats"];
+var objects = [];
 
 for (i = 0; i < terms.length; i++) {
     var termButton = $("<button>");
@@ -36,10 +37,13 @@ $(document).on("click", ".searchButton", function () {
                     var p = $("<p>").text("Rating: " + rating);
                     var pausedGif = $("<img>");
                     pausedGif.attr("src", results[i].images.fixed_height_still.url);
-                    pausedGif.addclass("gif");
+                    pausedGif.attr("paused", results[i].images.fixed_height_still.url);
+                    pausedGif.attr("play", results[i].images.fixed_height.url);
+                    pausedGif.addClass("gif");
+                    pausedGif.attr("state", "paused");
                     gifDiv.append(p);
                     gifDiv.append(pausedGif);
-                    $("#gifSpace").prepend(gifDiv);
+                    $("#gifSpace").prepend(gifDiv);                    
                 }
             }
         });
@@ -58,3 +62,14 @@ $("#search").on("click", function () {
 });
 
 // animate and pause gifs
+
+$(document).on("click", ".gif", function() {
+    var state = $(this).attr("state");
+    if (state === "paused") {
+        $(this).attr("src", $(this).attr("play"));
+        $(this).attr("state", "play");
+      } else {
+        $(this).attr("src", $(this).attr("paused"));
+        $(this).attr("state", "paused");
+      }
+    });
